@@ -1,3 +1,8 @@
+#Kevin Lin
+#SoftDev
+#Dictionary and List Review
+#2024/9/15
+#1 hour
 import random
 krewes = open("krewes","r")
 data = krewes.read()
