@@ -1,3 +1,9 @@
+#Kevin Lin
+#Death Row Coders
+#SoftDev
+#File Reading
+#2024/9/18
+#30 min
 import random
 krewes = open("krewes.txt","r")
 person = []
