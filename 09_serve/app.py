@@ -26,7 +26,7 @@ def occupation():
                     total += (float(lines[1])*10)
                 info.update({lines[0]:float(lines[1])})  #Add to dictionary
             count = count + 1
-        return info.popitem() 
+        return ("Hello\n" + info.popitem()) 
 
 if __name__ == '__main__':
     app.run()
