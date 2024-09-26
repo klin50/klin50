@@ -32,11 +32,11 @@ def sel(d):
 
 def page():
     occ = sel(readfile("occupations.csv"))
-    code = """
-    <!DOCTYPE html>
-    <html>
-      <body>
-            <p>Death Row Coders with Raymond, Christopher, and Kevin.</p>
+    code = """"""
+    with open("fixie.html", "r") as fixie:
+        for i in fixie:
+            code += i
+    code += """
             <h1>This time: """ + occ + """
             <h2>Occupations</h2>
     """
@@ -49,8 +49,5 @@ def page():
     return code
 
 if __name__ == "__main__":
-    with open("fixie.html", "r") as fixie:
-        for fix in fixie:
-            print(fix)
     app.debug = True
     app.run()
