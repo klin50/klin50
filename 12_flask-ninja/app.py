@@ -22,7 +22,7 @@ Notes:
 - Contrary to expectations the code did not return a error when render_template was removed, would there be an error when the path to the html file is typed?
 - When you use the template, the route for the url is not the path to the html in your directory anymore, it is the route that you set in your decorator.
     - The path to the html file in your directory no longer can be accessed as a url.
-    
+- The % command allows you to use python syntax in html. The variables are listed in double curly brackets.
     
 """
 
