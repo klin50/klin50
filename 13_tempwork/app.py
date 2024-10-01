@@ -1,20 +1,30 @@
 from flask import Flask, render_template
 app = Flask(__name__)
 
+def readfile(f):
+    d = {}
+    with open (f, 'r') as listfile:
+        reader = csv.reader(listfile)
+        next(reader)
+        for row in reader:
+            job = row[0]
+            if job == "Total":
+                continue
+            percent = float(row[1])
+            d[job] = percent
+    return d
+        
+        
+def sel(d):
+    return random.choices(list(d.keys()), weights=d.values(), k=1)[0]
+
 @app.route("/")
 def hello_world():
     return "No hablo queso!"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Q1: Can all of your teammates confidently predict the URL to use to load this page?
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@app.route("/template") 
+@app.route("/template")
 def test_tmplt():
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Q2: What is the significance of each argument? Simplest, most concise answer best.
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    return render_template( 'tablified.html', collection=coll)
-
+    return render_template( 'tablified.html', collection1=readfile("occupations.csv").keys(), collection2=readfile("occupations.csv").values())
 
 if __name__ == "__main__":
     app.debug = True
