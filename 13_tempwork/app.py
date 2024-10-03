@@ -11,21 +11,23 @@ def readfile(f):
             job = row[0]
             if job == "Total":
                 continue
-            percent = float(row[1])
-            d[job] = percent
-    return d
-        
-        
+            d[job] = [float(row[1]),row[2]]
+    return d        
+
 def sel(d):
-    return random.choices(list(d.keys()), weights=d.values(), k=1)[0]
+    newlist = []
+    for num in list(d.values()):
+        newlist.append(num[0])
+    return random.choices(list(d.keys()), weights=newlist, k=1)
 
 @app.route("/")
 def hello_world():
     return "No hablo queso!"
 
-@app.route("/template")
+@app.route("/wdywtbwygp")
 def test_tmplt():
-    return render_template('tablified.html', collection1=readfile("data/occupations.csv").keys(), collection2=readfile("data/occupations.csv").values())
+    occupations = readfile("data/occupations.csv")
+    return render_template('tablified.html', collection1=occupations, occupation=sel(occupations))
 
 if __name__ == "__main__":
     app.debug = True
