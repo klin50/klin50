@@ -1,3 +1,8 @@
+#Kevin Lin
+#SoftDev
+#October 1, 2024
+#Templates and tables
+#0.5
 from flask import Flask, render_template
 import random, csv
 app = Flask(__name__)
