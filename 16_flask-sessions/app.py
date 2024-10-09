@@ -10,6 +10,7 @@
 from flask import Flask             #facilitate flask webserving
 from flask import render_template   #facilitate jinja templating
 from flask import request           #facilitate form submission
+
 #the conventional way:
 #from flask import Flask, render_template, request
 
@@ -38,33 +39,12 @@ PROTIP: Insert your own in-line comments
 
 @app.route("/", methods=['GET'])
 def disp_loginpage():
-    print("\n\n\n")
-    print("***DIAG: this Flask obj ***")
-    print(app)
-    print("***DIAG: request obj ***")
-    print(request)
-    print("***DIAG: request.args ***")
-    print(request.args)
-    print("***DIAG: request.args['username']  ***")
-    #print(request.args['username'])
-    #print("***DIAG: request.headers ***")
-    #print(request.headers)
     return render_template( 'login.html' )
 
 
 @app.route("/response.html" , methods=['GET'])
 def authenticate():
-    #print("\n\n\n")
-    #print("***DIAG: this Flask obj ***")
-    #print(app)
-    #print("***DIAG: request obj ***")
-    #print(request)
-    #print("***DIAG: request.args ***")
-    #print(request.args)
-    #print("***DIAG: request.args['username']  ***")
-    #print(request.args['username'])
-    #print("***DIAG: request.headers ***")
-    #print(request.headers)
+    print(request.cookies.get('username'))
     return "Waaaa hooo HAAAH"  #response to a form submission
 
 
