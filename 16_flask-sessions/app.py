@@ -44,7 +44,8 @@ def disp_loginpage():
 
 @app.route("/response.html" , methods=['GET'])
 def authenticate():
-    print(request.cookies.get('username'))
+    print(request.args.get('username'))
+    print(request.cookies)
     return "Waaaa hooo HAAAH"  #response to a form submission
 
 
