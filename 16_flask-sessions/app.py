@@ -17,7 +17,7 @@ app.secret_key = secret
 def disp_loginpage():
     print(session.get('username'))
     if 'username' in session:
-        return "you're session exists"
+        return redirect("/response.html")
     return render_template( 'login.html' )
 
 @app.route("/response.html" , methods=['GET','POST'])
