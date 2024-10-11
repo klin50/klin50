@@ -1,6 +1,8 @@
-# Clyde 'Thluffy' Sinclair
+# Kevin Lin, Raymond Lin, Christopher Louie
+# Death Row Coders
 # SoftDev
-# October 2024
+# October 11, 2024
+# 1
 
 import os
 from flask import Flask
