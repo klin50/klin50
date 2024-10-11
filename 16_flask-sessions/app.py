@@ -15,15 +15,15 @@ app.secret_key = secret
 
 @app.route("/")
 def disp_loginpage():
-    print(session.get('username'))
     if 'username' in session:
         return redirect("/response.html")
     return render_template( 'login.html' )
 
 @app.route("/response.html" , methods=['GET','POST'])
 def authenticate():
-    session['username'] = request.args.get('username')
-    return render_template( 'response.html', username = request.args['username'])
+    if(request.args.get('username') != None):
+        session['username'] = request.args.get('username')
+    return render_template( 'response.html', username = session['username'])
 
 @app.route("/logout")
 def logout():
