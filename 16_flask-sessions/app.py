@@ -23,7 +23,9 @@ def disp_loginpage():
 
 @app.route("/response.html" , methods=['GET','POST'])
 def authenticate():
-    if(request.args.get('username') != None):
+    if(request.args.get('username') == None):
+        return redirect("/")
+    if(request.args.get('username') != None): #Only change username if it's not none
         session['username'] = request.args.get('username')
     return render_template( 'response.html', username = session['username'])
 
