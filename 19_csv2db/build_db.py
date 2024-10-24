@@ -1,4 +1,5 @@
-#Clyde "Thluffy" Sinclair
+#Kevin Lin
+#Death Row Coders
 #SoftDev
 #skeleton/stub :: SQLITE3 BASICS
 #Oct 2024
