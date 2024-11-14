@@ -8,12 +8,43 @@
         <link rel="stylesheet" href="css/foundation.css" />
     </head>
     <body>
-        <ul class="menu">
-            <li class="is-active"><a>This</a></li>
-            <li><a href="#"><i class="fi-list"></i> <span>Is</span></a></li>
-            <li><a href="#">The</a></li>
-            <li><a href="#">Basic</a></li>
-            <li><a href="#">Menu</a></li>
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <ul class="dropdown menu" data-dropdown-menu>
+                    <li><a href="#">General</a>
+                    <ul class="menu vertical">
+                        <li><a href="#">XY Grid</a></li>
+                        <li><a href="#">Float Grid</a></li>
+                        <li><a href="#">Flex Grid</a></li>
+                        <li><a href="#">Forms</a></li>
+                    </ul>
+                    </li>
+                    <li><a href="#">Navigation</a></li>
+                </ul>
+            </div>
+        </div>
+<div class="top-bar">
+  <div class="top-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li class="menu-text">Site Title</li>
+      <li>
+        <a href="#">One</a>
+        <ul class="menu vertical">
+          <li><a href="#">One</a></li>
+          <li><a href="#">Two</a></li>
+          <li><a href="#">Three</a></li>
         </ul>
+      </li>
+      <li><a href="#">Two</a></li>
+      <li><a href="#">Three</a></li>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><input type="search" placeholder="Search"></li>
+      <li><button type="button" class="button">Search</button></li>
+    </ul>
+  </div>
+</div>
     </body>
 </HTML>
