@@ -1,50 +1,86 @@
 <!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation Starter Template</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.9.0/dist/css/foundation.min.css" crossorigin="anonymous">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Foundation Starter Template</title>
-        <link rel="stylesheet" href="css/foundation.css" />
-    </head>
-    <body>
-        <div class="top-bar">
-            <div class="top-bar-left">
-                <ul class="dropdown menu" data-dropdown-menu>
-                    <li><a href="#">General</a>
-                    <ul class="menu vertical">
-                        <li><a href="#">XY Grid</a></li>
-                        <li><a href="#">Float Grid</a></li>
-                        <li><a href="#">Flex Grid</a></li>
-                        <li><a href="#">Forms</a></li>
-                    </ul>
-                    </li>
-                    <li><a href="#">Navigation</a></li>
-                </ul>
-            </div>
-        </div>
-<div class="top-bar">
-  <div class="top-bar-left">
-    <ul class="dropdown menu" data-dropdown-menu>
-      <li class="menu-text">Site Title</li>
-      <li>
-        <a href="#">One</a>
-        <ul class="menu vertical">
-          <li><a href="#">One</a></li>
-          <li><a href="#">Two</a></li>
-          <li><a href="#">Three</a></li>
+  </head>
+  <body>
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li><a href="#">General</a>
+            <ul class="menu vertical">
+              <li><a href="#">XY Grid</a></li>
+              <li><a href="#">Float Grid</a></li>
+              <li><a href="#">Flex Grid</a></li>
+              <li><a href="#">Forms</a></li>
+            </ul>
+          </li>
+          <li><a href="#">General</a>
+            <ul class="menu vertical">
+              <li><a href="#">Menu</a></li>
+              <li><a href="#">Pagination</a></li>
+              <li><a href="#">Breadcrumbs</a></li>
+            </ul>
+          </li>
         </ul>
-      </li>
-      <li><a href="#">Two</a></li>
-      <li><a href="#">Three</a></li>
-    </ul>
-  </div>
-  <div class="top-bar-right">
-    <ul class="menu">
-      <li><input type="search" placeholder="Search"></li>
-      <li><button type="button" class="button">Search</button></li>
+      </div>
+	<div class="top-bar-right">
+        <ul class="menu">
+          <li><input type="search" placeholder="Search"></li>
+          <li><button type="button" class="button">Search</button></li>
+        </ul>
+      </div>
+    </div>
+	<div class="warning callout">
+		<p>This is a callout textbox</p>
+	</div>
+	<div>
+		<h1>Body of text in each pagination</h1>
+	</div>
+<div class="row">
+  <div class="columns">
+    <ul class="pagination" role="navigation" aria-label="Pagination">
+      <li class="disabled">Previous <span class="show-for-sr">page</span></li>
+      <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+      <li><a href="#0" aria-label="Page 2">2</a></li>
+      <li><a href="#0" aria-label="Page 3">3</a></li>
+      <li><a href="#0" aria-label="Page 4">4</a></li>
+      <li class="ellipsis" aria-hidden="true"></li>
+      <li><a href="#0" aria-label="Page 12">12</a></li>
+      <li><a href="#0" aria-label="Page 13">13</a></li>
+      <li><a href="#0" aria-label="Next page">Next <span class="show-for-sr">page</span></a></li>
     </ul>
   </div>
 </div>
-    </body>
-</HTML>
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="#">School</a></li>
+    <li><a href="#">Classes</a></li>
+    <li class="disabled">CompSci</li>
+    <li>
+      <span class="show-for-sr">Current: </span> SoftDev
+    </li>
+  </ul>
+</nav>
+<div class="row">
+    <span class="primary badge">B</span>
+    <span class="secondary badge">A</span>
+    <span class="success badge">D</span>
+    <span class="alert badge">G</span>
+    <span class="warning badge">E</span>
+</div>
+<p1>PROGRESS BAR (ALMOST DONE)</p1>
+<div class="success progress">
+  <div class="progress-meter" style="width: 75%"></div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.9.0/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
