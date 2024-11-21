@@ -1,16 +1,26 @@
+#Double Ls - Kevin Lin, Christopher Louie
+#SoftDev
+#K23 - NASA API
+#2024-11-20
+#time spent: 0.75
 from flask import Flask, render_template
+import requests
 import urllib.request
 import json
 
 app = Flask(__name__)
+with open('key_nasa.txt',"r") as key:
+    api = key.read()
 
 @app.route("/")
 def nasa():
-    with urllib.request.urlopen('https://api.nasa.gov/planetary/apod?api_key=qcOS0PSRF5SfhDAepZCyjfvLVYWAydsFsAEc7wxT') as response:
+    request = requests.get(api).json()
+    #print(request['explanation'])
+    with urllib.request.urlopen(api) as response:
         html = response.read()
         data = json.loads(html)
-        
-    return render_template("main.html")
+        #print(data['explanation'])
+    return render_template("main.html",text=request['explanation'],img1 = request['url'], img2 = request['hdurl'])
     
 if __name__ == "__main__":
     app.debug = True
