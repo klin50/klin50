@@ -1,0 +1,3 @@
+When you make an object you don't have to give the variables inside a type and the variables could be anything.
+You can use var for everything and the program will just figure out what it actually is.
+document.getElementbyId is used to turn html elements into a variable in javascript.
