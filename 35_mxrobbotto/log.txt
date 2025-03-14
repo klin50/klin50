@@ -1,4 +1,9 @@
-It was pretty surprising that copilot made a flask app and almost completely mirrored our project on the first try.
-It had a lot of the same files as well, but maybe that's just a github convention.
-Copilot made an error in the code surprisingly, it added "]" after 'Post' for some reason.
-It lacked some pretty basic features like navigation but it did get most of the other features right.
+Kevin Lin
+SoftDev
+K35 Testing out Copilot
+2025-3-13
+time spent: 1 hour
+
+q0: It only took 3 tries to get it right, after getting rid of alchemy it was basically done.
+q1: Copilot made an error in the code surprisingly, it added "]" after 'Post' for some reason. I noticed it after it didn't let me run the python file, and went in and manually fixed it.
+q2: It was pretty surprising that copilot made a flask app and almost completely mirrored our project on the first try. It had a lot of the same files as well, but maybe that's just a github convention. It lacked some pretty basic features like navigation but it did get most of the other features right.
