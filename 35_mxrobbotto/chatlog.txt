@@ -707,3 +707,331 @@ if __name__ == '__main__':
 ```
 
 Now, each page includes a navigation bar with links to the home, login, register, and post story pages, making it easier to navigate between them.
+
+ME: allow users to edit and store users in sqlite3
+
+COPILOT: To allow users to edit their stories and store users in an SQLite3 database, we can modify the previous implementation to use SQLite and add an edit functionality for stories. Here is the updated code:
+
+````markdown name=README.md
+# Story Posting Website
+
+This project is a simple website built using Flask where users can register, log in, post, and edit stories. User data and stories are stored in an SQLite database.
+
+## Features
+- User registration
+- User login
+- Posting stories
+- Editing stories
+- Viewing stories
+
+## Requirements
+- Python 3.x
+- Flask
+- SQLite3
+
+## Setup
+1. Clone the repository:
+    ```
+    git clone <repository-url>
+    ```
+
+2. Navigate to the project directory:
+    ```
+    cd story-posting-website
+    ```
+
+3. Install the required packages:
+    ```
+    pip install -r requirements.txt
+    ```
+
+4. Initialize the database:
+    ```
+    python init_db.py
+    ```
+
+5. Run the application:
+    ```
+    python app.py
+    ```
+
+6. Open your browser and go to `http://127.0.0.1:5000` to see the website in action.
+````
+
+```python name=requirements.txt
+Flask
+```
+
+```python name=init_db.py
+import sqlite3
+
+conn = sqlite3.connect('site.db')
+c = conn.cursor()
+
+c.execute('''
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+)
+''')
+
+c.execute('''
+CREATE TABLE IF NOT EXISTS stories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    username TEXT NOT NULL,
+    FOREIGN KEY (username) REFERENCES users (username)
+)
+''')
+
+conn.commit()
+conn.close()
+```
+
+```python name=app.py
+from flask import Flask, render_template, redirect, url_for, request, flash, session
+import sqlite3
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key'
+DATABASE = 'site.db'
+
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+@app.route('/')
+def home():
+    conn = get_db_connection()
+    stories = conn.execute('SELECT * FROM stories').fetchall()
+    conn.close()
+    return render_template('home.html', stories=stories)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+        if user:
+            flash('Username is already taken!', 'danger')
+        else:
+            conn.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
+            conn.commit()
+            flash('Account created successfully!', 'success')
+            return redirect(url_for('login'))
+        conn.close()
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password)).fetchone()
+        conn.close()
+        if user:
+            session['username'] = username
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('home'))
+
+@app.route('/post_story', methods=['GET', 'POST'])
+def post_story():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+
+        conn = get_db_connection()
+        conn.execute('INSERT INTO stories (title, content, username) VALUES (?, ?, ?)', (title, content, session['username']))
+        conn.commit()
+        conn.close()
+        flash('Story posted successfully!', 'success')
+        return redirect(url_for('home'))
+    return render_template('post_story.html')
+
+@app.route('/edit_story/<int:story_id>', methods=['GET', 'POST'])
+def edit_story(story_id):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    story = conn.execute('SELECT * FROM stories WHERE id = ?', (story_id,)).fetchone()
+
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+        if story['username'] == session['username']:
+            conn.execute('UPDATE stories SET title = ?, content = ? WHERE id = ?', (title, content, story_id))
+            conn.commit()
+            flash('Story updated successfully!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('You are not authorized to edit this story.', 'danger')
+    conn.close()
+    return render_template('edit_story.html', story=story)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+```html name=templates/home.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Posting Website</title>
+</head>
+<body>
+    <h1>Welcome to the Story Posting Website</h1>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a> |
+        {% if session.get('username') %}
+            <a href="{{ url_for('post_story') }}">Post a Story</a> |
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a> |
+            <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+    </nav>
+    <hr>
+    <h2>Stories</h2>
+    {% for story in stories %}
+        <h3>{{ story['title'] }}</h3>
+        <p>{{ story['content'] }}</p>
+        <small>Posted by {{ story['username'] }}</small>
+        {% if session.get('username') == story['username'] %}
+            <a href="{{ url_for('edit_story', story_id=story['id']) }}">Edit</a>
+        {% endif %}
+        <hr>
+    {% endfor %}
+</body>
+</html>
+```
+
+```html name=templates/register.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a> |
+        <a href="{{ url_for('login') }}">Login</a>
+    </nav>
+    <form method="POST" action="{{ url_for('register') }}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
+```
+
+```html name=templates/login.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a> |
+        <a href="{{ url_for('register') }}">Register</a>
+    </nav>
+    <form method="POST" action="{{ url_for('login') }}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
+```
+
+```html name=templates/post_story.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Story</title>
+</head>
+<body>
+    <h1>Post a Story</h1>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a> |
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    <form method="POST" action="{{ url_for('post_story') }}">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+        <br>
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" required></textarea>
+        <br>
+        <button type="submit">Post Story</button>
+    </form>
+</body>
+</html>
+```
+
+```html name=templates/edit_story.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Story</title>
+</head>
+<body>
+    <h1>Edit Story</h1>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a> |
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    <form method="POST" action="{{ url_for('edit_story', story_id=story['id']) }}">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ story['title'] }}" required>
+        <br>
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" required>{{ story['content'] }}</textarea>
+        <br>
+        <button type="submit">Update Story</button>
+    </form>
+</body>
+</html>
+```
+
+This version of the website includes the ability to store user data and stories in an SQLite database, as well as functionality for users to edit their stories. The `init_db.py` script initializes the database with the necessary tables.

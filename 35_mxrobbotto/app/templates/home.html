@@ -19,10 +19,13 @@
     </nav>
     <hr>
     <h2>Stories</h2>
-    {% for story_id, story in stories.items() %}
+    {% for story in stories %}
         <h3>{{ story['title'] }}</h3>
         <p>{{ story['content'] }}</p>
         <small>Posted by {{ story['username'] }}</small>
+        {% if session.get('username') == story['username'] %}
+            <a href="{{ url_for('edit_story', story_id=story['id']) }}">Edit</a>
+        {% endif %}
         <hr>
     {% endfor %}
 </body>
