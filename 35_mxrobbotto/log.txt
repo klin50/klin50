@@ -1,0 +1,4 @@
+It was pretty surprising that copilot made a flask app and almost completely mirrored our project on the first try.
+It had a lot of the same files as well, but maybe that's just a github convention.
+Copilot made an error in the code surprisingly, it added "]" after 'Post' for some reason.
+It lacked some pretty basic features like navigation but it did get most of the other features right.
